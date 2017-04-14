@@ -7,8 +7,21 @@
                 <h1 id="header-title">Form Builder</h1> 
             </div>
         </div>
+        <div class="container">
+            <div class="row text-center">
+              <div class="col-md-12">
+                <button class="btn btn-default" id="serialize">Serialize</button>
+                <button class="btn btn-default" id="add-back">Retrieve</button>
+                <button class="btn btn-success" id="trigger_drop">Trigger drop</button>
+                <button class="btn btn-warning" id="trigger_sect">Drop Section</button>
+                <button class="btn btn-danger" id="trigger_combo">Drop Combo</button>
+                <button class="btn btn-danger" id="trigger_radio">Drop Radio</button>
+                <button class="btn btn-danger" id="trigger_mult">Drop Mult</button>
+                <button class="btn btn-danger" id="trigger_number">Drop Number</button>
+              </div>  
+            </div>
+        </div>
         <br>
-
         <div class="container">
             <div class="row">
                 <!-- SIDE BAR -->
@@ -33,55 +46,60 @@
                                 <div class="panel-body">
                                     <div class="tab-pane" id="multiple">
                                         <div class='elemField selectorField draggableField'>
-                                            <label class="control-label" style="vertical-align: top" placeholder="optional"></label>
-                                            <select class="ctrl-combobox form-control" name="combobox" id="group1" style="display: inline-block;">
+                                            <label class="control-label optional_label" style="vertical-align: top" placeholder="optional"></label>
+                                            <select type="select-one" class="ctrl-select_one form-control group1" name="select_one" style="display: inline-block;">
                                                 <option selected="" value=""></option>
                                                 <option value="option1">Option 1</option>
                                                 <option value="option2">Option 2</option>
                                                 <option value="option3">Option 3</option>
                                             </select>
-                                            <select class="ctrl-combobox form-control" id="group2" style="display: none;">
+                                            <select class="form-control group2" style="display: none;">
                                                 <option value="option1">Part#1</option>
                                                 <option value="option2">Part#2</option>
                                                 <option value="option3">Part#3</option>
                                             </select>
                                         </div>                                    
                                         <div class='elemField selectorField draggableField'>
-                                            <!-- <label class="control-label" style="vertical-align: top"></label> -->
                                             <div class="ctrl-radiogroup" style="display: inline-block;">
-                                                <label class="radio-inline" id="reqField"><input class="required_radio" type="radio"  name="radioField_" value="r()">Required</label>
+                                                <label class="radio-inline" id="reqField"><input class="required_radio" type="radio"  name="radioField" value="r()">Required</label>
                                                 <label class="radio-inline" id="optionField"><input class="optional_radio" type="radio" name="optionalField_" value="o()">Optional</label>
-                                                <label class="radio-inline"><input class="na_radio" type="radio" name="naField_" value="n()" checked="checked">N/A&nbsp<b class="makeBold">Option</b></label>
+                                                <label class="radio-inline"><input class="na_radio" type="radio" name="naField_" value="n()" checked="checked">N/A&nbsp<b class="makeBold">Option</b></label>  
                                                 <label class="radio-inline" style="display: none"><input class="placeHolderClass" type="radio" name="" value="">N/A&nbsp<b id="testCase"></b></label> 
                                             </div>
                                         </div>
                                         <div class='elemField selectorField draggableField'>
-                                            <!-- <label class="control-label" style="vertical-align: top"></label> -->
                                             <div style="display: inline-block;">
-                                                <select multiple="multiple" class="ctrl-selectmultiplelist form-control" name="selectMultiple" id="group3">
+                                                <label class="control-label optional_label_mult" style="vertical-align: top" placeholder="optional"></label>
+                                                <select type="select-multiple" multiple="multiple" class="ctrl-selectmultiplelist form-control group3" name="selectMultiple">
                                                     <option value="option1">Option 1</option>
                                                     <option value="option2">Option 2</option>
                                                     <option value="option3">Option 3</option>
-                                                </select>
-                                                <select class="ctrl-selectmultiplelist form-control" name="" id="group4" style="display: none;">
-                                                    <option value="option1">Part#1</option>
-                                                    <option value="option2">Part#2</option>
-                                                    <option value="option3">Part#3</option>
-                                                </select>                                                                                                                      
+                                                </select>      
+                                                <select class="form-control group4" name="" style="display: none;">
+                                                  <option value="option1">Part#1</option>
+                                                  <option value="option2">Part#2</option>
+                                                  <option value="option3">Part#3</option>
+                                                </select>                                                                
                                             </div>
                                         </div>
                                         <div class="elemField selectorField draggableField">
-                                            <!-- <label class="control-label radio-inline" style="vertical-align: top"></label> -->
-                                                <div style="display: inline-block;">
-                                                    <input type="number" class="ctrl-number form-control" style="width: 25%" name="number">&nbsp <b></b>
+                                                <div class="number_group">
+                                                    <label class="radio-inline">
+                                                            <input type="number" class="ctrl-number form-control" name="number" min="0" max="2" style="max-width: 65px; display: inline-block">
+                                                            <b class="number_option">Option</b>
+                                                    </label>
                                                 </div>
                                         </div>                                                
                                     </div>                                      
                                 </div>
                             </div>
                         </div>
+                        <br>
+                        <div>
+                            <textarea id="mock_database" class="form-control" rows="5"></textarea>
+                        </div>
                     </div>    
-                </div>            
+                </div>           
                         
 
                 <!-- WORK AREA -->

@@ -9,6 +9,7 @@ $(document).ready(function() {
      **/
 	compileTemplates();	
 
+
 	function makeDroppable($e, accepts, dropHandler) {
 		$e.droppable( {
 			activeClass: "activeDroppable",
@@ -19,24 +20,30 @@ $(document).ready(function() {
 		});
 	}
 
-	/**
+	/**0
 	* Drop handler that will be initially attached to our main drop field
 	**/
 
 	function initialDropHandler(e, ui) {
-		/**
-		* create a copy of the dropped category div and set appropriate values	
-		**/
+	/**
+	* create a copy of the dropped category div and set appropriate values	
+	**/
 		var $category = ui.draggable.clone();
 		$category.removeClass("catField draggableField ui-draggable ui-draggable-handle");
-		$category.addClass("droppedField");
+		$category.addClass("droppedCategory");
 		$category[0].id = "CTRL-DIV-"+(_cat_index++);
-		// attach our new element to where it was dropped			
+		// attach our new element to where it was dropped
+
+		var model = {};
+		// console.log($category.prop('id'));
+		
+
 		$category.appendTo(this);
 		// make the new category element droppable		
 		makeDroppable($category, '.sectField', categoryDropHandler);
-		$(document).on('click', '.droppedField', {} ,function(e) {
 
+
+		$(document).on('click', '.droppedCategory', function(e) {
 		    e.stopImmediatePropagation(); e.preventDefault(); 
             var me = $(this)
             var ctrl = me.find("[class*=ctrl]")[0];
@@ -49,16 +56,19 @@ $(document).ready(function() {
 	/**
 	* Drop handlers for category and section divs
 	**/
-
 	function categoryDropHandler(e, ui) {
 		var $section = $(ui.draggable).clone();
 		$section.removeClass("draggableField ui-draggable ui-draggable-handle elemField");
 		$section.addClass("droppedSect");
-		$section[0].id = "CTRL-DIV-"+(_sect_index++);	
+		$section[0].id = "CTRL-DIV-"+(_sect_index++);
 		$section.appendTo(this);
+
+		var model = {};
+
+		
 		makeDroppable($section, '.elemField', sectionDropHandler);
 
-		$(document).on('click', '.droppedSect', {} ,function(e) {
+		$(document).on('click', '.droppedSect', function(e) {
         	e.stopImmediatePropagation(); e.preventDefault();
             var me = $(this)
             var ctrl = me.find("[class*=ctrl]")[0];
@@ -74,6 +84,17 @@ $(document).ready(function() {
 		$controlElement.addClass("droppedElem");
 		$controlElement[0].id = "CTRL-DIV-"+(_ctrl_index++);
 		$controlElement.find("[type='radio']").attr("name", "row"+_ctrl_index.toString());
+
+		/* Assigning a unique name and id to comboboxes on drop */
+		if($controlElement.children().hasClass("group1")) {
+			$controlElement.find("select.group1").attr("name", "select-one" + name_count++).attr("id", count++);
+		/* Assigning a unique name and id to select multiples on drop */	
+		} else if ($controlElement.children().children().hasClass("group3")) {
+			$controlElement.find("select.group3").attr("name", "select-multiple" + name_count_mult++).attr("id", "select" + count2++);
+		/* Assigning a unique name and id to number types on drop */
+		} else if ($controlElement.children().hasClass("number_group")) {
+			$controlElement.find('.ctrl-number').attr("name", "num" + number_name_count++).attr("id", "number_id_" + number_count++);
+		}
 
 		var $radiosInSection = $controlElement.find("[type='radio']");
 		var item = $(this).find('.ctrl-section');		
@@ -99,7 +120,7 @@ $(document).ready(function() {
 		$controlElement.appendTo(this);
 		/* After dropping the control, attach the customization tool */
         
-        $(document).on('click', '.droppedElem', {} ,function(e) {
+        $(document).on('click', '.droppedElem', function(e) {
         	e.stopImmediatePropagation(); e.preventDefault();
             var me = $(this)
             var ctrl = me.find("[class*=ctrl]")[0];
@@ -107,13 +128,6 @@ $(document).ready(function() {
             customize_ctrl(ctrl_type, this.id);
             console.log(this.id);
         });
-  
-	    // $('.droppedElem').sortable({
-	    // 	helper: 'clone',
-	    // 	cancel: null,
-     //    	connectWith: ".droppedElem"
-     //    });
-
 	}
 
 	/**
@@ -122,6 +136,13 @@ $(document).ready(function() {
 	var _cat_index = 1001;
 	var _sect_index = 2001;
 	var _ctrl_index = 3001;
+
+	var name_count = 1;
+	var name_count_mult = 1;
+	var count = 1;
+	var count2 = 1;
+	var number_count = 1;
+	var number_name_count = 1;
 	/**
 	* initialize the draggable elements
 	**/

@@ -56,18 +56,27 @@ label {
 /*	padding-left: 5px;*/
 }
 
-.droppedField, .droppedSect > input, select, button, .ctrl-textbox, .checkboxgroup, .selectmultiplelist, .radiogroup {
+.droppedCategory, .droppedSect > input, select, button, .ctrl-textbox, .checkboxgroup, .selectmultiplelist, .radiogroup {
 	margin-top: 10px;
 	margin-bottom: 10px;
 	margin-right: 10px;
 }
 
-.ctrl-combobox {
+.ctrl-select_one {
 	width: 98%;
+}
+
+.number_option {
+	padding-left: 0;
+	padding-top: 5px;
 }
 
 .ctrl-selectmultiplelist {
 	width: 150px;
+}
+
+#mock_database {
+	font-size: x-small;
 }
 
 .affix-top,.affix{
@@ -112,7 +121,7 @@ label {
 }
 
 @media screen and (max-width: 1185px) {
-	.ctrl-textbox, .ctrl-combobox {
+	.ctrl-textbox, .ctrl-select_one {
 		width: 178px;
 	}
 }
@@ -130,7 +139,7 @@ label {
 }
 
 @media screen and (max-width: 990px) {
-	.ctrl-textbox, .ctrl-combobox, .ctrl-selectmultiplelist {
+	.ctrl-textbox, .ctrl-select_one, .ctrl-selectmultiplelist {
 		width: 100px;
 	}
 }
@@ -163,6 +172,11 @@ label {
 #form-title {
 	margin: 10px auto;
 	text-align: center;
+	font-size: x-large;
+}
+
+#salesforce_code {
+	font-weight: 800;
 }
 
 .col-centered {
