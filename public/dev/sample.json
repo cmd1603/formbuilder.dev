@@ -1,0 +1,61 @@
+[
+    {
+        "className": "droppedField",
+        "id": "CTRL-DIV-1001",
+        "section(s)": 
+        [
+            {
+                "className": "sectField",
+                "id": "CTRL-DIV-2001",
+                "control(s)":
+                [
+                    {
+                        "className": "droppedElem", 
+                        "id": "CTRL-DIV-3001",
+                        "children":
+                        [
+                                {"className": "ctrl-radiogroup"}
+                        ] 
+                    },
+
+                    {"className": "droppedElem", "type": "radiogroup", "id": "CTRL-DIV-3002"}
+                ]                            
+            },
+            {
+                "className": "sectField",
+                "id": "CTRL-DIV-2002",
+                "control(s)":
+                [
+                    {"className": "droppedElem", "type": "radiogroup", "id": "CTRL-DIV-3003"},
+                    {"className": "droppedElem", "type": "radiogroup", "id": "CTRL-DIV-3004"}
+                ]                      
+            }
+        ]
+    },
+    {
+        "className": "droppedField",
+        "id": "CTRL-DIV-1002",
+        "section(s)": 
+        [
+            {
+                "className": "sectField",
+                "id": "CTRL-DIV-2003",
+                "control(s)":
+                [
+                    {"className": "droppedElem", "type": "radiogroup", "id": "CTRL-DIV-3005"},
+                    {"className": "droppedElem", "type": "combobox", "id": "CTRL-DIV-3006"}
+                ]                            
+            },
+            {
+                "className": "sectField",
+                "id": "CTRL-DIV-2004",
+                "control(s)":
+                [
+                    {"className": "droppedElem", "type": "radiogroup", "id": "CTRL-DIV-3007"},
+                    {"className": "droppedElem", "type": "combobox", "id": "CTRL-DIV-3008"}
+                ]                      
+            }
+        ]
+    }          
+]
+

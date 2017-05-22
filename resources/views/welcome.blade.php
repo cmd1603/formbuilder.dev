@@ -11,17 +11,19 @@
             <div class="row text-center">
               <div class="col-md-12">
                 <button class="btn btn-default" id="serialize">Serialize</button>
-                <button class="btn btn-default" id="add-back">Retrieve</button>
-                <button class="btn btn-success" id="trigger_drop">Trigger drop</button>
-                <button class="btn btn-warning" id="trigger_sect">Drop Section</button>
-                <button class="btn btn-danger" id="trigger_combo">Drop Combo</button>
-                <button class="btn btn-danger" id="trigger_radio">Drop Radio</button>
-                <button class="btn btn-danger" id="trigger_mult">Drop Mult</button>
-                <button class="btn btn-danger" id="trigger_number">Drop Number</button>
+                <button class="btn btn-default" id="retrieve">Retrieve</button>
+                <button class="btn btn-success trigger_btns" id="trigger_cat">Drop Category</button>
+                <button class="btn btn-warning trigger_btns" id="trigger_sect">Drop Section</button>
+                <button class="btn btn-danger trigger_btns" id="trigger_combo">Drop Combo</button>
+                <button class="btn btn-danger trigger_btns" id="trigger_radio">Drop Radio</button>
+                <button class="btn btn-danger trigger_btns" id="trigger_mult">Drop Mult</button>
+                <button class="btn btn-danger trigger_btns" id="trigger_number">Drop Number</button>
+                <button class="btn btn-danger trigger_btns" id="trigger_ul">Drop Text</button>
               </div>  
             </div>
         </div>
         <br>
+
         <div class="container">
             <div class="row">
                 <!-- SIDE BAR -->
@@ -39,15 +41,15 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title">
-                                    <a href="#section" data-toggle="collapse" data-parent="accordion">Controls</a>
+                                    <a href="#section" data-toggle="collapse" data-parent="#section">Controls</a>
                                 </h3>
                             </div>
-                            <div id="section" class="panel-collapse collapse">
+                            <div id="section" class="panel-collapse collapse in">
                                 <div class="panel-body">
                                     <div class="tab-pane" id="multiple">
                                         <div class='elemField selectorField draggableField'>
                                             <label class="control-label optional_label" style="vertical-align: top" placeholder="optional"></label>
-                                            <select type="select-one" class="ctrl-select_one form-control group1" name="select_one" style="display: inline-block;">
+                                            <select class="ctrl-select_one form-control group1" name="select_one" style="display: inline-block;">
                                                 <option selected="" value=""></option>
                                                 <option value="option1">Option 1</option>
                                                 <option value="option2">Option 2</option>
@@ -60,46 +62,54 @@
                                             </select>
                                         </div>                                    
                                         <div class='elemField selectorField draggableField'>
+                                            <!-- <label class="control-label" style="vertical-align: top"></label> -->
                                             <div class="ctrl-radiogroup" style="display: inline-block;">
-                                                <label class="radio-inline" id="reqField"><input class="required_radio" type="radio"  name="radioField" value="r()">Required</label>
+                                                <label class="radio-inline" id="reqField"><input class="required_radio" type="radio" name="radioField_" value="r()">Required</label>
                                                 <label class="radio-inline" id="optionField"><input class="optional_radio" type="radio" name="optionalField_" value="o()">Optional</label>
-                                                <label class="radio-inline"><input class="na_radio" type="radio" name="naField_" value="n()" checked="checked">N/A&nbsp<b class="makeBold">Option</b></label>  
+                                                <label class="radio-inline"><input class="na_radio" type="radio" name="naField_" value="n()" checked="checked">N/A&nbsp<b class="makeBold">Option</b></label>
                                                 <label class="radio-inline" style="display: none"><input class="placeHolderClass" type="radio" name="" value="">N/A&nbsp<b id="testCase"></b></label> 
                                             </div>
                                         </div>
                                         <div class='elemField selectorField draggableField'>
+                                            <!-- <label class="control-label" style="vertical-align: top"></label> -->
                                             <div style="display: inline-block;">
-                                                <label class="control-label optional_label_mult" style="vertical-align: top" placeholder="optional"></label>
-                                                <select type="select-multiple" multiple="multiple" class="ctrl-selectmultiplelist form-control group3" name="selectMultiple">
+                                                <select multiple="multiple" class="ctrl-selectmultiplelist form-control group3" name="selectMultiple" id="group3">
                                                     <option value="option1">Option 1</option>
                                                     <option value="option2">Option 2</option>
                                                     <option value="option3">Option 3</option>
-                                                </select>      
-                                                <select class="form-control group4" name="" style="display: none;">
-                                                  <option value="option1">Part#1</option>
-                                                  <option value="option2">Part#2</option>
-                                                  <option value="option3">Part#3</option>
-                                                </select>                                                                
+                                                </select>
+                                                <select class="form-control group4" name="" id="group4" style="display: none;">
+                                                    <option value="option1">Part#1</option>
+                                                    <option value="option2">Part#2</option>
+                                                    <option value="option3">Part#3</option>
+                                                </select>                                                                                                                      
                                             </div>
                                         </div>
                                         <div class="elemField selectorField draggableField">
                                                 <div class="number_group">
                                                     <label class="radio-inline">
-                                                            <input type="number" class="ctrl-number form-control" name="number" min="0" max="2" style="max-width: 65px; display: inline-block">
-                                                            <b class="number_option">Option</b>
+                                                        <input type="number" class="ctrl-number form-control" name="number" min="0" max="2" style="max-width: 65px; display: inline-block">
+                                                        <b class="number_option">Option</b>
                                                     </label>
                                                 </div>
-                                        </div>                                                
+                                        </div>
+                                        <div class="elemField selectorField draggableField">
+                                          <label class="radio-inline">
+                                            <ul>
+                                              <li class="ctrl-unordered_list"><b class="ul_txt">Text</b></li>
+                                            </ul>
+                                          </label>
+                                        </div>               
                                     </div>                                      
                                 </div>
                             </div>
                         </div>
                         <br>
                         <div>
-                            <textarea id="mock_database" class="form-control" rows="5"></textarea>
+                          <textarea id="mock_database" class="form-control" rows="5"></textarea>
                         </div>
                     </div>    
-                </div>           
+                </div>            
                         
 
                 <!-- WORK AREA -->
@@ -109,14 +119,17 @@
                         <div class="col-md-8 col-centered" id="form-title-div">
                             <div class="col-md-12 input-group">
                                 <input type="text" class="form-control input-large" placeholder="Type title here" id="form-title">
-                            </div>    
+                            </div>
+                            <div class="col-md-6 input-group col-centered">
+                                <input type="text" class="form-control input-large text-center" placeholder="Salesforce product code" id="salesforce_code">
+                            </div>                                     
                         </div>
                     </div>    
 
                 <!-- COLUMNS FOR DROPPING FIELDS -->
                     <div class="row">
                         <div class="col-md-12 center-blocks">
-                                <div id="selected-column-1" class="col-md-11 well droppedFields"></div>
+                                <div id="work-area" class="col-md-11 well droppedFields"></div>
                         </div>   
                     </div>
                 </div>
@@ -132,18 +145,50 @@
     </div>
 
 <script>
-    function serialize_HTML() {
-        var element = document.getElementById("qo-wrap");
-        var html = element.outerHTML;
-        var json = html2json(html);
-        console.log(json);
-        var htmlback = json2html(json);
-        // event.preventDefault();
-        console.log(htmlback);
-    }
-</script>      
 
-<script>
+    $(document).on('click', '#trigger_cat', function(e) {
+      $('.catField').simulate("drag", {
+        dragTarget: '.droppedFields',
+      });
+      $('.catField').simulate("drop");
+    });
+      
+    $(document).on('click', '#trigger_sect', function(e) { 
+      $('.sectField').simulate("drag", {
+        dragTarget: ".droppedCategory:last",
+      });
+      $('.sectField').simulate("drop");
+    });
+
+    $(document).on('click', '#trigger_combo', function(e) {
+      $('.ctrl-select_one').simulate("drag", {
+        dragTarget: ".droppedSect .panel-body:last",
+      });
+      $('.ctrl-select_one').simulate("drop");
+    });
+
+    $(document).on('click', '#trigger_radio', function(e) {
+      $('.ctrl-radiogroup').simulate("drag", {
+        dragTarget: ".droppedSect .panel-body:last",
+      });
+      $('.ctrl-radiogroup').simulate("drop");
+    });
+    
+    $(document).on('click', '#trigger_mult', function(e) {
+      $('.ctrl-selectmultiplelist').simulate("drag", {
+        dragTarget: ".droppedSect .panel-body:last",
+      });
+      $('.ctrl-selectmultiplelist').simulate("drop");
+    });
+
+    $(document).on('click', '#trigger_number', function(e) {
+      $('.ctrl-number').simulate("drag", {
+        dragTarget: ".droppedSect .panel-body:last",
+      });
+      $('.ctrl-number').simulate("drop");
+    });
+          
+
 //  JS FOR ClLEARING THE WORK AREA
 function delete_field() {
     if(window.confirm("Are you sure you want to clear the work area?")) {
@@ -166,7 +211,7 @@ function preview() {
 
     var selected_content = $("#qo-wrap").clone();
     selected_content.find("div").each(function(i,o) {
-        var obj = $(o)
+        var obj = $(o);
         obj.removeClass("draggableField ui-draggable well ui-droppable ui-sortable");
     });
     var legend_text = $("#form-title")[0].value;
@@ -252,4 +297,5 @@ function preview() {
 </script>
 
 @endsection    
+
 

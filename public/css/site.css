@@ -79,6 +79,10 @@ label {
 	font-size: x-small;
 }
 
+/*.trigger_btns {
+	display: none;
+}
+*/
 .affix-top,.affix{
  	position: static;
 }
@@ -200,6 +204,7 @@ label {
 
 .draggableField:hover {
 	background-color: #a3bfff;
+	cursor: default;
 }
 
 .droppedElem:hover {
@@ -225,7 +230,7 @@ label {
 	top: 10%;
 	left: 50%;
 	z-index: 1050;
-	width: 700px;
+	width: 750px;
 	margin-left: -280px;
 	background-color: #fff;
 	border: 1px solid rgba(0,0,0,0.3);
@@ -244,6 +249,10 @@ label {
 .modal-body {
     position: relative;
     padding: 15px;
+}
+
+.droppedSect .panel-body {
+	padding-bottom: 20px;
 }
 
 .form-horizontal .control-label {

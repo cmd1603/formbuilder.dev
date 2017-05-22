@@ -3,7 +3,7 @@
 	<head>
 		<title>Quote and Order Builder</title>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">	
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 		<script src="https://rawgit.com/jquery/jquery-ui/1-11-stable/external/jquery-simulate/jquery.simulate.js"></script>
 		<script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
@@ -14,7 +14,7 @@
 		<script type="text/javascript" src="/js/jquery-simulate-ext-master/src/jquery.simulate.drag-n-drop.js"></script>
 		<script type="text/javascript" src="/js/jquery-simulate-ext-master/src/jquery.simulate.key-sequence.js"></script>
 		<script type="text/javascript" src="/js/jquery-simulate-ext-master/src/jquery.simulate.key-combo.js"></script>			
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">	
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">		
 		<link rel="stylesheet" type="text/css" href="/css/site.css">
 		<style id="content-styles">
 			.droppedElem {
@@ -51,7 +51,7 @@
 				margin-right: 10px;
 			}
 
-			.ctrl-combobox {
+			.ctrl-select_one {
 				width: 99%;
 			}
 

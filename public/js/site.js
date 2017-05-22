@@ -1,6 +1,5 @@
 "use strict"
 $(document).ready(function() {
-
     /**
      * takes in a jquery object, and makes it a droppable element that accepts
      * the passed values, and attaches the appriopriate dropHandler.
@@ -20,30 +19,40 @@ $(document).ready(function() {
 		});
 	}
 
-	/**0
+	/**
 	* Drop handler that will be initially attached to our main drop field
 	**/
+	var mdb = {};
 
 	function initialDropHandler(e, ui) {
 	/**
 	* create a copy of the dropped category div and set appropriate values	
 	**/
-		var $category = ui.draggable.clone();
+		var $category = ui.draggable.clone() ;
 		$category.removeClass("catField draggableField ui-draggable ui-draggable-handle");
 		$category.addClass("droppedCategory");
-		$category[0].id = "CTRL-DIV-"+(_cat_index++);
-		// attach our new element to where it was dropped
-
-		var model = {};
-		// console.log($category.prop('id'));
-		
-
 		$category.appendTo(this);
-		// make the new category element droppable		
+		var i = _cat_index++;
+		//$category[0].id = "CTRL-DIV-"+(i);
+		
+		if (globalFormObject.is_retrieving) {
+			var mock_db = JSON.parse($('#mock_database').val());
+			mdb = mock_db;
+			console.log("cat1", mock_db.categories[i - 1001]);
+			$category[0].id = "CTRL-DIV-"+(i);
+			$category[0] = {id: "CTRL-DIV-"+(i), label: mock_db.categories[i - 1001].label};
+
+			console.log($category[0].id); 
+			
+		} else {
+			$category[0].id = "CTRL-DIV-"+(i);
+			// attach our new element to where it was dropped
+			// make the new category element droppable		
+		}
+		
 		makeDroppable($category, '.sectField', categoryDropHandler);
 
-
-		$(document).on('click', '.droppedCategory', function(e) {
+		$(document).on('dblclick', '.droppedCategory', function(e) {
 		    e.stopImmediatePropagation(); e.preventDefault(); 
             var me = $(this)
             var ctrl = me.find("[class*=ctrl]")[0];
@@ -51,24 +60,62 @@ $(document).ready(function() {
             customize_ctrl(ctrl_type, this.id);
             console.log(this.id);
         });
+
 	}	
 
 	/**
-	* Drop handlers for category and section divs
+	* Drop handlers for section divs
 	**/
+
 	function categoryDropHandler(e, ui) {
 		var $section = $(ui.draggable).clone();
-		$section.removeClass("draggableField ui-draggable ui-draggable-handle elemField");
+		$section.removeClass("draggableField sect_click ui-draggable ui-draggable-handle elemField");
 		$section.addClass("droppedSect");
-		$section[0].id = "CTRL-DIV-"+(_sect_index++);
+		console.log(this);
 		$section.appendTo(this);
+		var i = _cat_index++;
+		var y = _sect_index++;
+		//populate from globalFormObject.obj - get the section info from the mock database 
 
-		var model = {};
+		if (globalFormObject.is_retrieving) {
+			var mock_db = JSON.parse($('#mock_database').val());
+			// console.log("sect1", mock_database.categories[y - 2001]);
+			$section[0] = {id: "CTRL-DIV-"+(y), label: mdb.categories[i - 1002].sections[y - 2001].label}
 
+			// console.log("mdb", mock_db);
+			// $.each(mock_db.categories, function(index, cat_obj) {
+			// 		console.log($(this));
+
+			// 		var section_candidate = $(this).prop('sections');
+			// 	$.each(section_candidate, function(index, sects_obj) {
+			// 		console.log("db", $(this));
+			// 		var sect_prop = $(this);
+			// 		$.each(sect_prop, function(index, value) {
+
+			// 			if ($(this).prop('type') == "section") {
+			// 				$section[0].id = "CTRL-DIV-"+(_sect_index++);
+			// 				// work_area.find('.ctrl-section').html($(this).label);			
+			// 				model[$section[0].id] = {mutex: $(this).prop('mutex'), controls: [], id: $section[0].id};
+
+			// 			}
+
+			// 		});
+															
+			// 	});
+				
+				
+			// });
 		
-		makeDroppable($section, '.elemField', sectionDropHandler);
 
-		$(document).on('click', '.droppedSect', function(e) {
+		} else {
+			$section[0].id = "CTRL-DIV-"+(y);
+			model[$section[0].id] = {mutex: true, controls: []};
+		}
+
+		makeDroppable($section.find('.panel-body'), '.elemField', sectionDropHandler);
+		
+
+		$(document).on('dblclick', '.droppedSect', function(e) {
         	e.stopImmediatePropagation(); e.preventDefault();
             var me = $(this)
             var ctrl = me.find("[class*=ctrl]")[0];
@@ -80,21 +127,57 @@ $(document).ready(function() {
 
 	function sectionDropHandler(e, ui) {
 		var $controlElement = $(ui.draggable).clone();
-		$controlElement.removeClass("draggableField ui-draggable ui-draggable-handle elemField");
+		$controlElement.removeClass("draggableField ui-draggable ui-draggable-handle elemField select_one_click radiogroup_click selectmultiplelist_click number_click ul_click");
 		$controlElement.addClass("droppedElem");
 		$controlElement[0].id = "CTRL-DIV-"+(_ctrl_index++);
 		$controlElement.find("[type='radio']").attr("name", "row"+_ctrl_index.toString());
 
+		var options = '';
+		var parts = '';
+
 		/* Assigning a unique name and id to comboboxes on drop */
 		if($controlElement.children().hasClass("group1")) {
-			$controlElement.find("select.group1").attr("name", "select-one" + name_count++).attr("id", count++);
+			$controlElement.find("select.group1").attr("name", "submitted_name" + name_count++).attr("id", count++);
+
+			$controlElement.find('.group1').children().each(function(i,o) {options += o.text + '\n'});
+			$controlElement.find('.group2:hidden').children().each(function(i,o) {parts += o.text + '\n'});
+			var opt_pairs = {n: options,v: parts};
+	    	
+			// var select_one_config = {id: $controlElement[0].id, pairs: [], required_field: false, name: $controlElement.find('select.group1').attr('name')};
+			// model[$(this).parent().prop('id')].controls.push(select_one_config);
+			model[$controlElement[0].id] = {id: $controlElement[0].id, pairs: [], required_field: false, name: $controlElement.find('select.group1').attr('name')}
+			
+				if ($controlElement.first().find('.group1').find('option').length != 0) {
+					$controlElement.first().find('.group1').find('option').each(function() {
+						var select_one_pairs = {
+							type: "pair",
+							n: $(this).text(),
+							v: $(this).attr("value").replace(/\(|\)/g, '')
+						};
+						model[$controlElement[0].id].pairs.push(select_one_pairs);
+					});
+					
+				}	
+			
 		/* Assigning a unique name and id to select multiples on drop */	
 		} else if ($controlElement.children().children().hasClass("group3")) {
-			$controlElement.find("select.group3").attr("name", "select-multiple" + name_count_mult++).attr("id", "select" + count2++);
+			$controlElement.find("select.group3").attr("name", "submitted_multiple" + name_count_mult++).attr("id", "select" + count2++);
+			model[$controlElement[0].id] = {required_field: false, name: $controlElement.find('select.group3').prop('name')};
 		/* Assigning a unique name and id to number types on drop */
+
 		} else if ($controlElement.children().hasClass("number_group")) {
-			$controlElement.find('.ctrl-number').attr("name", "num" + number_name_count++).attr("id", "number_id_" + number_count++);
+			$controlElement.find('.ctrl-number').attr("name", "submitted_number" + number_name_count++).attr("id", "number_id_" + number_count++);
+			model[$controlElement[0].id] = {required_field: false, name: $controlElement.find('.ctrl-number').prop('name')};
+
+		} else if ($controlElement.children().hasClass('ctrl-radiogroup')) {
+			$controlElement.attr('name', "radio_" + radio_count++);
+			model[$controlElement[0].id] = {type: "ctrl-ron", required_field: false, name: $controlElement.attr('name')};
+
+		} else if ($controlElement.children().hasClass('ctrl-unordered_list')) {
+			$controlElement.attr('name', "text_" + text_count++);
+			model[$controlElement[0].id] = {required_field: false, name: $controlElement.attr('name')};
 		}
+		
 
 		var $radiosInSection = $controlElement.find("[type='radio']");
 		var item = $(this).find('.ctrl-section');		
@@ -104,23 +187,11 @@ $(document).ready(function() {
 			$radio.attr("name", ($(item).text().replace(/\s/g,'')) + "__"  + (_ctrl_index.toString() - 3002));
 		});
 
-		$controlElement.parent().find('.required_radio').on("click", function() {
-			var radioBtn = $controlElement.parent().find('.required_radio');
-			var checkedCount = 0;
-			radioBtn.each(function() {
-				if($(this).is(":checked"))
-					checkedCount++;
-			});
-			if(checkedCount > 1) {
-				alert("Only one can be required");
-				return false;
-			}
-		});
-		
+		console.log("model", model);
 		$controlElement.appendTo(this);
 		/* After dropping the control, attach the customization tool */
         
-        $(document).on('click', '.droppedElem', function(e) {
+        $(document).on('dblclick', '.droppedElem', function(e) {
         	e.stopImmediatePropagation(); e.preventDefault();
             var me = $(this)
             var ctrl = me.find("[class*=ctrl]")[0];
@@ -128,8 +199,15 @@ $(document).ready(function() {
             customize_ctrl(ctrl_type, this.id);
             console.log(this.id);
         });
+
+		$('.droppedSect').find('.panel-body').sortable({
+	    	connectWith: ($('.droppedSect').find('.panel-body'))
+	    });
+		
+        
 	}
 
+		
 	/**
 	* variables to keep track of ids for generated elements
 	**/
@@ -143,6 +221,8 @@ $(document).ready(function() {
 	var count2 = 1;
 	var number_count = 1;
 	var number_name_count = 1;
+	var radio_count = 1;
+	var text_count = 1;
 	/**
 	* initialize the draggable elements
 	**/
@@ -168,8 +248,7 @@ $(document).ready(function() {
 	    	helper: 'clone',
             cancel: null, // Cancel the default events on the controls	    	
 	    	connectWith: ".droppedFields"
-	    });
-
+	    }).disableSelection();
 
 
 	/* JS FOR SIDEBAR FIXED POSITION SCROLLING */
