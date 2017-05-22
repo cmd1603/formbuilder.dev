@@ -264,7 +264,7 @@
 
 	/* Common method to save changes to a control - This also calls the specific methods */
 	save_changes.common = function(values) {
-		var div_ctrl = $("#" + values.forCtrl);
+		var div_ctrl = $("#" + values.ctrl_ID);
 		div_ctrl.find('.control-label, .control-section').eq(0).text(values.label);
 
 		var specific_save_method = save_changes[values.type];
@@ -274,14 +274,14 @@
 	}
 
 	save_changes.category = function(values) {
-		var div_ctrl = $("#" + values.forCtrl);
+		var div_ctrl = $("#" + values.ctrl_ID);
 		var ctrl = div_ctrl.find("input")[0];
 	}
 
    /* Specific method to save the Section name and logic that either gives radio button attribute names the section name or the name of the "option" label in its particular radio group */ 
   	save_changes.section = function(values) {
 	    console.log(values);
-			var div_ctrl = $("#" + values.forCtrl);
+			var div_ctrl = $("#" + values.ctrl_ID);
 			var ctrl = div_ctrl.find("input")[0];
 
 	    var $dynamicSection = div_ctrl.find("[type='radio']");
@@ -308,7 +308,7 @@
 
  	save_changes.select_one = function(values) {
 		console.log(values);
-		var div_ctrl = $("#" + values.forCtrl);
+		var div_ctrl = $("#" + values.ctrl_ID);
 		var ctrl = div_ctrl.find("select")[0];
 	    div_ctrl.find('.group1').attr('name', values.submitted_name);
 	    ctrl.value = values.value;
@@ -503,7 +503,7 @@
 	save_changes.radiogroup = function(values) {
 		console.log(values);
 	    var form = $("#theForm");
-			var div_ctrl = $("#" + values.forCtrl);
+			var div_ctrl = $("#" + values.ctrl_ID);
 	    div_ctrl.find('.makeBold').text(values.label);
 	    model[values.ctrl_ID].required_field = $('#radio_required').prop('checked');
 	    // div_ctrl.find('.control-label').text(values.value);
@@ -528,7 +528,7 @@
 /* Specific method to save Options and their corresponding Part Numbers */
  	save_changes.selectmultiplelist = function(values) {
 		console.log(values);
-		var div_ctrl = $("#" + values.forCtrl);
+		var div_ctrl = $("#" + values.ctrl_ID);
 		var ctrl = div_ctrl.find("select")[0];
 		div_ctrl.find('.group3').attr('name', values.submitted_name);
 	    model[values.ctrl_ID].required_field = $('#select_mult_required').prop('checked');
@@ -713,7 +713,7 @@
 			// header: modal_header,
 			content: specific_template(ctrl_params),
 			type: ctrl_type,
-			forCtrl: ctrl_id
+			ctrl_ID: ctrl_id
 		}
 
 		
@@ -734,7 +734,7 @@
 		/* Delete the control from the form */
 	function delete_ctrl() {
 		if(window.confirm("Are you sure about this?")) {
-			var ctrl_id = $("#theForm").find("[name=forCtrl]").val()
+			var ctrl_id = $("#theForm").find("[name=ctrl_ID]").val()
 			console.log(ctrl_id + " " + "DELETED");
 			$("#"+ctrl_id).remove();
 		}

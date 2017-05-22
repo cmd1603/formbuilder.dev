@@ -22,7 +22,6 @@ $(document).ready(function() {
 	/**
 	* Drop handler that will be initially attached to our main drop field
 	**/
-	var mdb = {};
 
 	function initialDropHandler(e, ui) {
 	/**
@@ -37,20 +36,24 @@ $(document).ready(function() {
 		
 		if (globalFormObject.is_retrieving) {
 			var mock_db = JSON.parse($('#mock_database').val());
-			mdb = mock_db;
 			console.log("cat1", mock_db.categories[i - 1001]);
 			$category[0].id = "CTRL-DIV-"+(i);
-			$category[0] = {id: "CTRL-DIV-"+(i), label: mock_db.categories[i - 1001].label};
+			$category.find('.ctrl-category').html(mock_db.categories[i - 1001].label);
 
-			console.log($category[0].id); 
+			makeDroppable($category, '.sectField', categoryDropHandler);
+			$category = {id: "CTRL-DIV-"+(i), label: mock_db.categories[i - 1001].label};
+
+		
 			
 		} else {
 			$category[0].id = "CTRL-DIV-"+(i);
+			makeDroppable($category, '.sectField', categoryDropHandler);
 			// attach our new element to where it was dropped
-			// make the new category element droppable		
+			// make the new category element droppable	
+
 		}
 		
-		makeDroppable($category, '.sectField', categoryDropHandler);
+		
 
 		$(document).on('dblclick', '.droppedCategory', function(e) {
 		    e.stopImmediatePropagation(); e.preventDefault(); 
@@ -72,7 +75,7 @@ $(document).ready(function() {
 		$section.removeClass("draggableField sect_click ui-draggable ui-draggable-handle elemField");
 		$section.addClass("droppedSect");
 		console.log(this);
-		$section.appendTo(this);
+		
 		var i = _cat_index++;
 		var y = _sect_index++;
 		//populate from globalFormObject.obj - get the section info from the mock database 
@@ -80,9 +83,11 @@ $(document).ready(function() {
 		if (globalFormObject.is_retrieving) {
 			var mock_db = JSON.parse($('#mock_database').val());
 			// console.log("sect1", mock_database.categories[y - 2001]);
-			$section[0] = {id: "CTRL-DIV-"+(y), label: mdb.categories[i - 1002].sections[y - 2001].label}
+			$section[0].id = "CTRL-DIV-"+(y);
+			$section.find('.ctrl-section').html(mock_db.categories[i - 1002].sections[y - 2001].label);
+			// $section[0] = {id: "CTRL-DIV-"+(y), label: mock_db.categories[i - 1002].sections[y - 2001].label}
 
-			// console.log("mdb", mock_db);
+			// console.log("mock_database", mock_db);
 			// $.each(mock_db.categories, function(index, cat_obj) {
 			// 		console.log($(this));
 
@@ -123,6 +128,8 @@ $(document).ready(function() {
             customize_ctrl(ctrl_type, this.id);
             console.log(this.id);
         });
+
+        $section.appendTo(this);
 	}
 
 	function sectionDropHandler(e, ui) {
