@@ -734,8 +734,16 @@
 		/* Delete the control from the form */
 	function delete_ctrl() {
 		if(window.confirm("Are you sure about this?")) {
-			var ctrl_id = $("#theForm").find("[name=ctrl_ID]").val()
+			var ctrl_id = $("#theForm").find("[name=ctrl_ID]").val();
 			console.log(ctrl_id + " " + "DELETED");
+
+			for (key in model) {
+				if (key == ctrl_id) {
+					delete model[key];
+				}	
+			}
+
+			console.log("model", model);
 			$("#"+ctrl_id).remove();
 		}
 	}
@@ -758,33 +766,6 @@
 	      $(this).val(str);
 	    });
   	}
-
-
-/* SERIALIZATION LOGIC */
-
-	$('#serialize').click(function() {
-		
-		var config = {
-						type: "configuration",
-						title: $("#form-title").val(),
-						salesforce_product_code: $("#salesforce_code").val(), 
-						categories: []
-					};		
-
-		$('#work-area').children().each(function() {
-			// console.log($(this).prop('id'));
-			// $(this).children().each(function() {
-			// 	console.log($(this).prop('id'));
-			// 	$(this).children().each(function() {
-			// 		console.log($(this).prop('id'));
-			// 	});
-			// });
-			addNode(config, this);
-		});
-		console.log(JSON.stringify(config, true, 3));
-		$("#mock_database").empty();
-		$("#mock_database").val(JSON.stringify(config,true, 2));
-	});
 
   	/* --------- METHODS FOR RETREIVING A SAVED CONFIGURATION ---------- */
 	var globalFormObject = {is_retrieving: false};
@@ -901,7 +882,7 @@
 			var section_config = {
 							type: $.trim(ctrl2.className.match("ctrl-.*")[0].split(" ")[0].split("-")[1]),
 							label: $sects.find('.ctrl-section').text(),
-							// id: $sects.prop('id'),
+							id: $sects.prop('id'),
 							mutex: model[$sects.prop('id')].mutex,
 							controls: []
 						};
