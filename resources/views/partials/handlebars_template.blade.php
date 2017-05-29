@@ -864,133 +864,150 @@
 	  	globalFormObject.is_retrieving = false;
   	});
 
+  	/* --------- METHODS FOR SERIALIZING THE WORK CONFIGURATION ---------- */
+
+  	$('#serialize').click(function() {
+  		
+  		var config = {
+  						type: "configuration",
+  						title: $("#form-title").val(),
+  						salesforce_product_code: $("#salesforce_code").val(), 
+  						categories: []
+  					};	
+
+  		$('#work-area').children().each(function() {
+  			addNode(config, this);
+  		});
+
+  		console.log(JSON.stringify(config, true, 3));
+  		$("#mock_database").empty();
+  		$("#mock_database").val(JSON.stringify(config,true, 2));
+  	});
+
 	function addNode(parent, node) {
-			// parent = the object containing {categories: [], title: ""}
-			// node = all the dropped category divs
-  		var ctrl = $(node).find("[class*=ctrl]")[0];
+		var ctrl = $(node).find("[class*=ctrl]")[0];
+
 		var category_config = {
-					 	type: $.trim(ctrl.className.match("ctrl-.*")[0].split(" ")[0].split("-")[1]),
-					 	label: $(node).find('.ctrl-category').text(),
-					 	id: node.id, 
-					 	sections: []
-					};
+				 	type: $.trim(ctrl.className.match("ctrl-.*")[0].split(" ")[0].split("-")[1]),
+				 	label: $(node).find('.ctrl-category').text(),
+				 	id: node.id, 
+				 	sections: []
+				};
 
-
-		// var pop = $(node).find('.droppedSect').find("[class*=ctrl]")[0];
-
-			$(node).find('.droppedSect').each(function() {
-				var $sects = $(this);
-				console.log($(this).prop('id'));
-				var ctrl2 = ($(node).find('.droppedSect').find("[class*=ctrl]")[0]);
-				var section_config = {
-								type: $.trim(ctrl2.className.match("ctrl-.*")[0].split(" ")[0].split("-")[1]),
-								label: $sects.find('.ctrl-section').text(),
-								mutex: model[$sects.prop('id')].mutex,
-								id: $sects.prop('id'),
-								controls: []
-							};
-				category_config.sections.push(section_config);
-
-				$sects.find('.droppedElem').each(function() {
-					var $user_ctrls = $(this);
-					console.log($(this).prop('id'));
-					var select_one_config = {
-									type: "ctrl-select-one",
-									name: $user_ctrls.find('group1').attr('name'),
-									label: $user_ctrls.find('.optional_label').text(),
-									required_field: model[$user_ctrls.prop('id')].required_field,
-									id: $user_ctrls.prop('id'),
-									pairs: []
-								};	
-
-					var radiogroup_config = {
-							type: "ctrl-ron",
-							label: $user_ctrls.find('.makeBold').text(),
-							required_field: model[$user_ctrls.prop('id')].required_field,
-							id: $user_ctrls.prop('id'),
-							pairs: []
-						};												
-
-					var select_multiple_config = {
-							type: "ctrl-select-multiple",
-							name: $user_ctrls.find('.group3').attr('name'),
-							label: $user_ctrls.find('.optional_label_mult').text(),
-							required_field: model[$user_ctrls.prop('id')].required_field,							
-							id: $user_ctrls.prop('id'),
-							pairs: []
+		$(node).find('.droppedSect').each(function() {
+			var $sects = $(this);
+			console.log($(this).prop('id'));
+			var ctrl2 = ($(node).find('.droppedSect').find("[class*=ctrl]")[0]);
+			var section_config = {
+							type: $.trim(ctrl2.className.match("ctrl-.*")[0].split(" ")[0].split("-")[1]),
+							label: $sects.find('.ctrl-section').text(),
+							// id: $sects.prop('id'),
+							mutex: model[$sects.prop('id')].mutex,
+							controls: []
 						};
 
-					var number_config = {
-							type: "ctrl-number",
-							name: $user_ctrls.find('.ctrl-number').attr('name'),
-							label: $user_ctrls.find('.number_option').text(),
-							required_field: model[$user_ctrls.prop('id')].required_field,							
-							id: $user_ctrls.prop('id'),
-							min: $user_ctrls.find('.ctrl-number').attr("min"),
-							max: $user_ctrls.find('.ctrl-number').attr("max"),
-							step: $user_ctrls.find('.ctrl-number').attr("step")
-						}	
+			category_config.sections.push(section_config);
 
-					var ul_config = {
-									type: "ctrl-unordered_list",
-									label: $user_ctrls.find('.ul_txt').text(),
-									required_field: model[$user_ctrls.prop('id')].required_field,
-									id: $user_ctrls.prop('id')
-								}
+			$sects.find('.droppedElem').each(function() {
+				var $user_ctrls = $(this);
 
-					if($user_ctrls.find('.ctrl-select_one').length != 0) {
-						section_config.controls.push(select_one_config);
-						if($user_ctrls.find('.group1').find('option').length != 0) {
-							var $something = $user_ctrls.find('.group1').find('option').each(function() {
-								var $select_one_pairs = {
-											type: "pair", 
-											n: $(this).text(), 
-											v: $(this).attr("value").replace(/\(|\)/g, '') //removes parentheses	
-										};
-									select_one_config.pairs.push($select_one_pairs);
-							});	
-						}
+				console.log($(this).prop('id'));						
+				if ($user_ctrls.find('.ctrl-select_one').length != 0) {
+					var select_one_config = {
+						type: "ctrl-select-one",
+						id: $user_ctrls.prop('id'),
+						name: $user_ctrls.find('.group1').attr('name'),
+						label: $user_ctrls.find('.optional_label').text(),
+						required_field: model[$user_ctrls.prop('id')].required_field,
+						pairs: []
+					};	
 
-					} else if ($user_ctrls.find('.ctrl-radiogroup').length != 0) {
-						section_config.controls.push(radiogroup_config);
-						var $radioValues = $user_ctrls.find("[type='radio']");
-							$radioValues.each(function() {
-								var $data = $(this);
-								if($data.hasClass('placeHolderClass')) {
-									var $radio_attr = {
-											type: "pair", 
-											n: $data.attr('name'), 
-											v: $data.attr('value')
-										};
-									radiogroup_config.pairs.push($radio_attr);	
-								}
-							});
-
-					} else if ($user_ctrls.find('.group3').find('option').length != 0) {
-						section_config.controls.push(select_multiple_config);
-							var $something = $user_ctrls.find('.group3').find('option').each(function() {
-								var $select_mult_pairs = {
-											type: "pair", 
-											n: $(this).text(), 
-											v: $(this).attr("value").replace(/\(|\)/g, '') //removes parentheses	
-										};
-									select_multiple_config.pairs.push($select_mult_pairs);
-							});	
-
-					} else if ($user_ctrls.find('.ctrl-number').length != 0) {
-						section_config.controls.push(number_config);
-
-					} else {
-						section_config.controls.push(ul_config);	
+					section_config.controls.push(select_one_config);
+					if($user_ctrls.find('.group1').find('option').length != 0) {
+						$user_ctrls.find('.group1').find('option').each(function() {
+							var $select_one_pairs = {
+										type: "pair", 
+										n: $(this).text(), 
+										v: $(this).attr("value").replace(/\(|\)/g, '') //removes parentheses	
+									};
+								select_one_config.pairs.push($select_one_pairs);
+						});	
 					}
 
-				});
+				} else if ($user_ctrls.find('.ctrl-radiogroup').length != 0) {
+					// console.log($user_ctrls.attr('name'));
+					var radiogroup_config = {
+								type: "ctrl-ron",
+								id: $user_ctrls.prop('id'),
+								// name: $user_ctrls.attr('name'),
+								label: $user_ctrls.find('.makeBold').text(),
+								required_field: model[$user_ctrls.prop('id')].required_field,
+								pairs: []
+					};		
+
+					section_config.controls.push(radiogroup_config);
+					var $radioValues = $user_ctrls.find("[type='radio']");
+						$radioValues.each(function() {
+							var $data = $(this);
+							if($data.hasClass('placeHolderClass')) {
+								var $radio_attr = {
+										type: "pair", 
+										n: $data.attr('name'), 
+										v: $data.attr('value')
+									};
+								radiogroup_config.pairs.push($radio_attr);	
+							}
+						});
+
+				} else if ($user_ctrls.find('.group3').find('option').length != 0) {
+					var select_multiple_config = {
+								type: "ctrl-select-multiple",
+								id: $user_ctrls.prop('id'),
+								name: $user_ctrls.find('.group3').attr('name'),
+								label: $user_ctrls.find('.optional_label_mult').text(),
+								required_field: model[$user_ctrls.prop('id')].required_field,
+								pairs: []
+					};
+
+					section_config.controls.push(select_multiple_config);
+						$user_ctrls.find('.group3').find('option').each(function() {
+							var $select_mult_pairs = {
+										type: "pair", 
+										n: $(this).text(), 
+										v: $(this).attr("value").replace(/\(|\)/g, '') //removes parentheses	
+								};
+								select_multiple_config.pairs.push($select_mult_pairs);
+						});
+
+				} else if ($user_ctrls.find('.ctrl-number').length != 0) {
+					var number_config = {
+								type: "ctrl-number",
+								id: $user_ctrls.prop('id'),
+								name: $user_ctrls.find('.ctrl-number').attr('name'),
+								label: $user_ctrls.find('.number_option').text(),
+								required_field: model[$user_ctrls.prop('id')].required_field,			
+								min: $user_ctrls.find('.ctrl-number').attr("min"),
+								max: $user_ctrls.find('.ctrl-number').attr("max"),
+								step: $user_ctrls.find('.ctrl-number').attr("step")
+					};
+					section_config.controls.push(number_config);
+				} else {
+					var ul_config = {
+								type: "ctrl-unordered_list",
+								id: $user_ctrls.prop('id'),
+								label: $user_ctrls.find('.ul_txt').text(),
+								required_field: model[$user_ctrls.prop('id')].required_field
+					};						
+					section_config.controls.push(ul_config);	
+				}
+
 			});
+			
+		});
 
-
-
-		parent.categories.push(category_config);
-		
+	// console.log(model);
+	parent.categories.push(category_config);
+				
 	}
 
 </script>
