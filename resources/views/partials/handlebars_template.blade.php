@@ -503,9 +503,10 @@
 	save_changes.radiogroup = function(values) {
 		console.log(values);
 	    var form = $("#theForm");
-			var div_ctrl = $("#" + values.ctrl_ID);
+		var div_ctrl = $("#" + values.ctrl_ID);
 	    div_ctrl.find('.makeBold').text(values.label);
 	    model[values.ctrl_ID].required_field = $('#radio_required').prop('checked');
+	    console.log(div_ctrl.parent().parent().find('.ctrl-section').text());
 	    // div_ctrl.find('.control-label').text(values.value);
 	   
 	    var $radioValues = div_ctrl.find("[type='radio']");
