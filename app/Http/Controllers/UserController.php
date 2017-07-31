@@ -32,8 +32,8 @@ class UserController extends Controller
 
     public function do_login()
     {
-    	$rules = array('name' => 'required', 'email' => 'required|email', 'password' => 'required');
-    	$validator = Validator::make(Input::all(), $rules);
+    	$rules_alt = array('name' => 'required', 'email' => 'required|email', 'password' => 'required');
+    	$validator = Validator::make(Input::all(), $rules_alt);
     	if($validator->fails())
     	{
     		return  redirect()->route('auth.login')
@@ -54,7 +54,7 @@ class UserController extends Controller
     		else
     		{
     			$login_error = 'Invalid Username or Password';
-    			return redirect()->route('auth.login')
+    			return redirect()->route('auth.login', compact('rules'))->with('rules', $rules)
     			->withErrors(['message' => $login_error ], 'login');
     		}
     	}
@@ -88,7 +88,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $logged_in_user = Auth::user();
         $user = $this->findUserOr404($id);

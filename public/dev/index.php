@@ -1431,8 +1431,7 @@ $servername = ""
   	});
 
   	/* --------- METHODS FOR SERIALIZING THE WORK CONFIGURATION ---------- */
-	// var new_id_array = [];
-	// var counter = 3001;
+
   	$('#serialize').click(function() {
   		
   		var config = {
@@ -1443,26 +1442,16 @@ $servername = ""
   					};	
 
   		$('#work-area').children().each(function() {
-  			// console.log($(this).prop('id'));
-  			// $(this).children().each(function() {
-  			// 	console.log($(this).prop('id'));
-  			// 	$(this).children().each(function() {  
-  			// 		console.log($(this).prop('id'));
-  			// 	});
-  			// });
   			addNode(config, this);
   		});
+
   		console.log(JSON.stringify(config, true, 3));
   		$("#mock_database").empty();
   		$("#mock_database").val(JSON.stringify(config,true, 2));
   	});
 
 	function addNode(parent, node) {
-		// parent = the object containing {categories: [], title: ""}
-		// node = all the dropped category divs
 		var ctrl = $(node).find("[class*=ctrl]")[0];
-
-
 
 		var category_config = {
 				 	type: $.trim(ctrl.className.match("ctrl-.*")[0].split(" ")[0].split("-")[1]),
@@ -1484,8 +1473,6 @@ $servername = ""
 						};
 
 			category_config.sections.push(section_config);
-
-
 
 			$sects.find('.droppedElem').each(function() {
 				var $user_ctrls = $(this);
