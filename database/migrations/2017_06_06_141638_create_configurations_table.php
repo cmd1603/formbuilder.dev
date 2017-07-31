@@ -24,6 +24,18 @@ class CreateConfigurationsTable extends Migration
             $table->foreign('created_by')->references('id')->on('users');
             $table->timestamps();
         });
+        
+        // Schema::create('names', function(Blueprint $table)
+        // {
+        //     $table->increments('id');
+        //     $table->string('submitted_name', 40);
+        //     $table->string('part_name', 30);
+        //     $table->integer('directory_label')->unsigned;
+        //     $table->foreign('directory_label')->references('id')->on('configurations');
+        //     $table->integer('created_by')->unsigned;
+        //     $table->foreign('created_by')->references('id')->on('users');            
+        //     $table->timestamps();
+        // });
     }
 
     /**
