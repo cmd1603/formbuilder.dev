@@ -1,0 +1,8 @@
+192.168.1.224 - richard [21/Nov/2016:10:22:09 -0600] "GET / HTTP/1.1" 500 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:50.0) Gecko/20100101 Firefox/50.0"
+192.168.1.224 - richard [21/Nov/2016:10:24:14 -0600] "GET / HTTP/1.1" 500 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:50.0) Gecko/20100101 Firefox/50.0"
+192.168.1.224 - richard [21/Nov/2016:10:25:38 -0600] "GET / HTTP/1.1" 500 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:50.0) Gecko/20100101 Firefox/50.0"
+192.168.1.224 - richard [21/Nov/2016:10:25:39 -0600] "GET / HTTP/1.1" 500 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:50.0) Gecko/20100101 Firefox/50.0"
+192.168.1.224 - - [21/Nov/2016:10:26:18 -0600] "GET / HTTP/1.1" 200 39 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:50.0) Gecko/20100101 Firefox/50.0"
+192.168.1.224 - richard [21/Nov/2016:10:26:31 -0600] "GET / HTTP/1.1" 500 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:50.0) Gecko/20100101 Firefox/50.0"
+192.168.1.224 - richard [21/Nov/2016:10:30:11 -0600] "GET / HTTP/1.1" 200 1035 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:50.0) Gecko/20100101 Firefox/50.0"
+192.168.0.3 - - [21/Nov/2016:10:31:22 -0600] "GET / HTTP/1.1" 200 1035 "-" "-"

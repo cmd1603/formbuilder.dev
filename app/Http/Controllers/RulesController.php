@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Rule;
+use App\Rule_Id;
+use App\User;
 use App\Configuration;
 use App\Http\Requests;
 use Carbon\Carbon;
@@ -23,12 +25,9 @@ class RulesController extends Controller
 
 	public function index(Request $request)
 	{
-		$rules = Rule::with('user')->orderBy('updated_at', 'desc')->paginate(10);
-		if (Auth::user()->id == 4) {
-			return view('rules.index')->with('rules', $rules);
-		} else {
-			return redirect('/');
-		}	
+        $rule_ids = Rule_Id::with('user')->orderBy('updated_at', 'desc')->paginate(10);
+        $configurations = Configuration::all();  
+        return view('rule_ids.index')->with('rule_ids', $rule_ids)->with('configurations', $configurations);        
 	}
 
 	/**
@@ -40,7 +39,7 @@ class RulesController extends Controller
 	public function create(Request $request)
 	{
 		$rules = Rule::all();
-		$configurations = configuration::all();
+		$configurations = Configuration::all();
 		return view('rules.create', compact('rules'))->with('rules', $rules)->with('configurations', $configurations);
 	}
 
@@ -51,9 +50,17 @@ class RulesController extends Controller
 		return response()->json($data);
 	}
 
+    // --------------- AJAX GET REQUEST ------------------ //
+    public function fetchRuleIds(Request $request)
+    {
+        $data = Rule_Id::select('id', 'directory_label', 'rule_name', 'created_at', 'updated_at')->get();
+        return response()->json($data);
+    }
+
+    // --------------- AJAX GET REQUEST ------------------ //
 	public function getRulesData(Request $request)
 	{
-		$data = Rule::select('id', 'directory_label', 'salesforce_product_code', 'rule_name', 'output')->get();
+		$data = Rule::select('id', 'directory_label', 'rule_name', 'submitted_name_1', 'submitted_name_2', 'submitted_name_3', 'submitted_output', 'input_1', 'input_2', 'input_3', 'output')->get();
 
 		return response()->json($data);
 	}
@@ -68,8 +75,7 @@ class RulesController extends Controller
 	public function store(Request $request)
 	{
 		$sub1_count = $request->get('submitted_name_1');
-
-		if (count($sub1_count) > 1) 
+		if (count($sub1_count) > 0) 
 		{
 			foreach($sub1_count as $key => $value)
 			{
@@ -119,10 +125,27 @@ class RulesController extends Controller
 	 * @return \Illuminate\Http\Response
 	 */	
 
-	public function edit($id)
+	public function edit(Request $request, $id)
 	{
 		$rule = Rule::findOrFail($id);
 		return view('rules.edit')->with('rule', $rule);
+	}
+
+	public function editItem(Request $request)
+	{
+		$rule = Rule::find($request->id);
+		$rule->directory_label = $request->directory_label;
+		$rule->rule_name = $request->rule_name;
+		$rule->submitted_name_1 = $request->submitted_name_1;
+		$rule->input_1 = $request->input_1;
+		$rule->submitted_name_2 = $request->submitted_name_2;
+		$rule->input_2 = $request->input_2;
+		$rule->submitted_name_3 = $request->submitted_name_3;
+		$rule->input_3 = $request->input_3;
+		$rule->submitted_output = $request->submitted_output;
+		$rule->output = $request->output;
+		$rule->save();
+		return response()->json($rule);
 	}
 
 	/**
@@ -131,13 +154,25 @@ class RulesController extends Controller
  	 * @param  \Illuminate\Http\Request  $request
  	 * @param  int  $id
  	 * @return \Illuminate\Http\Response
+
  	 */	
 
-	public function update(Request $request, $id)
+	public function updateThroughAjax(Request $request)
 	{
-		$rule = Rule::findOrFail($id);
-		return $this->validateAndSave($rule, $request);
-
+		$rule = new Rule;
+		$rule->created_by = Auth::id();
+		$rule->directory_label = $request->directory_label;
+		$rule->rule_name = $request->rule_name;
+		$rule->submitted_name_1 = $request->submitted_name_1;
+		$rule->input_1 = $request->input_1;
+		$rule->submitted_name_2 = $request->submitted_name_2;
+		$rule->input_2 = $request->input_2;
+		$rule->submitted_name_3 = $request->submitted_name_3;
+		$rule->input_3 = $request->input_3;
+		$rule->submitted_output = $request->submitted_output;
+		$rule->output = $request->output;
+		$rule->save();
+		return response()->json($rule);
 	}
 
 	/**
@@ -155,6 +190,12 @@ class RulesController extends Controller
 		return redirect()->action('UserController@show', Auth::user()->id);
 	}
 
+	public function deleteRecordAjax(Request $request)
+	{
+		Rule::find($request->id)->delete();
+		return response()->json();
+	}
+
 	private function validateAndSave(Rule $rule, Request $request)
 	{
 		$request->session()->flash('error_message', 'Rule was not saved successfully.');
@@ -162,7 +203,6 @@ class RulesController extends Controller
 		$request->session()->forget('error_message');
 		$rule->directory_label = $request->directory_label;
 		$rule->rule_name = $request->rule_name;
-		$rule->salesforce_product_code = $request->salesforce_product_code;
 		$rule->submitted_name_1 = $request->submitted_name_1;
 		$rule->input_1 = $request->input_1;
 		$rule->submitted_name_2 = $request->submitted_name_2;
@@ -172,8 +212,7 @@ class RulesController extends Controller
 		$rule->submitted_output = $request->submitted_output;
 		$rule->output = $request->output;
 		$rule->save();
-		session()->flash('success_message', 'Rule saved successfully.');
-		return redirect()->action('UserController@show', Auth::user()->id);
+		return response()->json($rule);
 	}
 			
 }

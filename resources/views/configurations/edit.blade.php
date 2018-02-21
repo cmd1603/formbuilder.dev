@@ -15,11 +15,11 @@
 	            <div class="panel-group" id="sidebar" style="margin-bottom: 0px">
 	                <div class="panel panel-primary catField selectorField draggableField">
 	                    <div class="panel-heading"><h3 class="control-label ctrl-category text-uppercase">CATEGORY</h3></div>
-	                        <div class="panel-body"></div>
+	                        <div class="panel-body category-body"></div>
 	                </div>
 	                <div class="panel panel-default sectField sect_click selectorField draggableField">
 	                    <div class="panel-heading"><h4 class="control-label ctrl-section">Section</h4></div>
-	                        <div class="panel-body"></div>
+	                        <div class="panel-body section-body"></div>
 	                </div>
 	                <div class="panel panel-default">
 	                    <div class="panel-heading">
@@ -82,7 +82,14 @@
 	                                      </ul>
 	                                    </label>
 	                                  </div>  
-	                                </div> 
+	                                </div>
+                                  <div class="elemField btn_click selectorField draggableField">
+                                    <div class="ctrl-button">
+                                        <label class="radio-inline">
+                                          <a class="btn btn-default" type="button" target="_blank">Files</a>
+                                        </label>
+                                      </div>  
+                                  </div>                                     
 	                            </div>                    
 	                        </div>
 	                    </div>
@@ -105,35 +112,49 @@
 				<div class="row">
 			 		<div class="col-md-6">
 					 	{!! csrf_field() !!}
-					 	<label id="edit_dl">Directory Label</label>
+					 	<label class="input_labels">Directory Label</label>
 						<input class="form-control" type="text" id="form_title" class="form-control" placeholder="Directory Label" name="directory_label" value="{{ $configuration->directory_label }}">
 					</div>
 					<div class="col-md-6">
-					 	<label id="edit_sf">Salesforce Product Code</label>
-						<input type="text" class="form-control" placeholder="Salesforce Product Code" name="salesforce_product_code" value="{{ $configuration->salesforce_product_code }}">
+					 	<label class="input_labels">Salesforce Product Code</label>
+						<input type="text" class="form-control" placeholder="Salesforce Product Code" name="salesforce_product_code" id="sfpc" value="{{ $configuration->salesforce_product_code }}">
 					</div>
 					<div>
 						<textarea rows="5" id="mock_database" class="form-control" name="configuration" style="display: none;">{{ $configuration->configuration }}</textarea>
-            <textarea rows="5" id="mdb_2" class="form-control" name="workarea_html" style="display: none;">{{ $configuration->workarea_html }}</textarea> 	
+            <textarea rows="5" id="mdb_2" class="form-control" name="workarea_html" style="display: none;">{{ $configuration->workarea_html }}</textarea> 
+            <textarea rows="5" id="mdb_3" class="form-control" name="submitted_names" style="display: none;">{{ $configuration->submitted_names }}</textarea>
+            <textarea rows="5" id="mdb_4" class="form-control" name="part_numbers" style="display: none;">{{ $configuration->part_numbers }}</textarea>	
 					</div>
-				</div>		
+				</div>
+        <div class="row"> 
+          <div class="col-md-6">
+            <label class="input_labels">Machine Image</label>
+            <input type="text" class="form-control" placeholder="Machine Image" name="machine_image" id="image_filename" value="{{ $configuration->machine_image }}">
+          </div>        
+          <div class="col-md-6">
+            <label class="input_labels" style="padding-top: 5px">Cutting Technology</label>
+            <label class="radio-inline tech_group"><input class="" type="radio" name="cutting_technology" value="router" {{ $configuration->cutting_technology == 'router' ? 'checked' : '' }}>Router</label>
+            <label class="radio-inline tech_group"><input class="" type="radio" name="cutting_technology" value="fabrication" {{ $configuration->cutting_technology == 'fabrication' ? 'checked' : '' }}>Fabrication</label>
+            <label class="radio-inline tech_group"><input class="" type="radio" name="cutting_technology" value="digital_finishing" {{ $configuration->cutting_technology == 'digital_finishing' ? 'checked' : '' }}>Digital Finishing</label>
+        </div>          		
 				<div class="row text-center" style="margin-bottom: 10px">
-			      <div class="col-md-12">
-			<!--         <button class="btn btn-default" id="serialize">Serialize</button> -->
-			        <button type="button" class="btn btn-success trigger_btns" id="trigger_cat">Drop Category</button>
-			        <button type="button" class="btn btn-warning trigger_btns" id="trigger_sect">Drop Section</button>
-			        <button type="button" class="btn btn-danger trigger_btns" id="trigger_combo">Drop Combo</button>
-			        <button type="button" class="btn btn-danger trigger_btns" id="trigger_radio">Drop Radio</button>
-			        <button type="button" class="btn btn-danger trigger_btns" id="trigger_mult">Drop Mult</button>
-			        <button type="button" class="btn btn-danger trigger_btns" id="trigger_number">Drop Number</button>
-			        <button type="button" class="btn btn-danger trigger_btns" id="trigger_ul">Drop Text</button>
-			      </div>  
-			    </div>
+  	      <div class="col-md-12">
+  	        <button type="button" class="btn btn-success trigger_btns" id="trigger_cat">Drop Category</button>
+  	        <button type="button" class="btn btn-warning trigger_btns" id="trigger_sect">Drop Section</button>
+  	        <button type="button" class="btn btn-danger trigger_btns" id="trigger_combo">Drop Combo</button>
+  	        <button type="button" class="btn btn-danger trigger_btns" id="trigger_radio">Drop Radio</button>
+  	        <button type="button" class="btn btn-danger trigger_btns" id="trigger_mult">Drop Mult</button>
+  	        <button type="button" class="btn btn-danger trigger_btns" id="trigger_number">Drop Number</button>
+  	        <button type="button" class="btn btn-danger trigger_btns" id="trigger_ul">Drop Text</button>
+            <button type="button" class="btn btn-danger trigger_btns" id="trigger_btn">Drop Button</button>
+  	      </div>  
+		    </div>
+        </div>
 		        <!-- WORK AREA -->
 		        <div id="qo-wrap">  
 
 		        <!-- COLUMNS FOR DROPPING FIELDS -->
-		            <div class="row">
+		            <div class="row" id="inner_wrap">
 		                <div class="col-md-12 center-blocks" id="work-wrap" style="margin-left: 15px">
 		                        <div id="work-area" class="col-md-11 well droppedFields"></div>
 		                </div>   
@@ -155,13 +176,13 @@
         
       $(document).on('click', '.sect_click, #trigger_sect', function(e) { 
         $('.sectField').simulate("drag", {
-          dragTarget: ".droppedCategory:last",
+          dragTarget: ".droppedCategory .panel-body:last",
         });
         $('.sectField').simulate("drop");
       });
       $(document).on('click', '.select_one_click, #trigger_combo', function(e) {
         $('.ctrl-select_one').simulate("drag", {
-          dragTarget: ".droppedSect .panel-body:last",
+          dragTarget: ".droppedSect .section-body:last",
         });
         $('.ctrl-select_one').simulate("drop");
       });
@@ -190,6 +211,14 @@
         });
         $('.ctrl-unordered_list').simulate("drop");
       });
+
+      $(document).on('click', '.btn_click, #trigger_btn', function(e) {
+        $('.ctrl-button').simulate("drag", {
+          dragTarget: ".droppedSect .panel-body:last",
+        });
+        $('.ctrl-button').simulate("drop");
+      });
+
   //  JS FOR ClLEARING THE WORK AREA
     function delete_field() {
         if(window.confirm("Are you sure you want to clear the work area?")) {
@@ -219,18 +248,23 @@
       }
       selected_content.find("#form-title-div").remove();
       var selected_content_html = selected_content.html();
-     var dialogContent = '<!DOCTYPE HTML>\n<html lang="en-US">\n<head>\n<meta charset="UTF-8">\n<title></title>\n';
+     var dialogContent = '<!DOCTYPE HTML>\n<html lang="en-US">\n<head>\n<meta http-equiv="X-UA-Compatible" content="IE=edge">\n<meta charset="UTF-8">\n<title></title>\n';
+  dialogContent+= "<script src=\"https://code.jquery.com/jquery-3.1.1.min.js\">";    
+  dialogContent+= "</scr" + "ipt>";
+  dialogContent+= "<script src=\"http://code.jquery.com/ui/1.12.0/jquery-ui.min.js\">";
+  dialogContent+= "</scr" + "ipt>";
   dialogContent+= '<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">\n';
   dialogContent+= '<style>\n'+$("#content-styles").html()+'\n</style>\n';
   dialogContent+= '</head>\n<body>\n<form>';
-  dialogContent+= '<legend style="text-align:center; font-size:35px">'+legend_text+'</legend>';
+  dialogContent+= '<legend id="form_header" style="text-align:center; font-size:35px">'+legend_text+'</legend>';
   dialogContent+= selected_content_html;
   dialogContent+= '<div class="row">';
   dialogContent+=   '<div class="col-md-6" style="text-align:right">';
-  dialogContent+=     '<button type="submit" id="test-submit" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">Test Submit</button>';
+  dialogContent+=     '<button type="button" id="test-submit" class="btn btn-success btn-lg">Test Submit</button>';
   dialogContent+=   '</div>';
   dialogContent+=   '<div class="col-md-6">';
   dialogContent+=     '<button type="button" id="close_window" class="btn btn-info btn-lg">Close Window</button>';
+  dialogContent+=     '<input type="hidden" name="" value="">';  
   dialogContent+=   '</div>';
   dialogContent+= '</div>';
   dialogContent+= '</div>';
@@ -246,55 +280,10 @@
   dialogContent+=   '</div>';
   dialogContent+= '</div>';
   dialogContent+= '</div>'; 
-  dialogContent+= "<script src=\"https://code.jquery.com/jquery-3.1.1.min.js\">";    
-  dialogContent+= "</scr" + "ipt>";
-  dialogContent+= "<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\">";                                
-    dialogContent+= "</scr" + "ipt>";              
-    dialogContent+= '<script>';
-    dialogContent+= '$(\'input[type="radio"]\').click(function(e){\
-                     \n var me = $(this);\
-                     \n var name = me.prop(\'name\');\
-                     \n   var value = me.val();\
-                     \n   if(value.substr(0,1) == \'r\'){\
-                     \n     var pos = name.indexOf(\'__\');\
-                     \n     var pre = name.substr(0,pos)+\'__\';\
-                     \n     $(\'input[type="radio"][name^="\'+pre+\'"][value^="r"]\').each(function(index){\
-                     \n       if(this.checked){\
-                     \n         if(!(me.is(this))){\
-                     \n           alert("Only 1 can be Required.  Changing to Optional...");\
-                     \n           $(\'input[type="radio"][name="\'+name+\'"][value^="o"]\').prop(\'checked\', true);\
-                     \n         }\
-                     \n       }\
-                     \n     });\
-                     \n  }\
-                     \n });\
-                     \n $.fn.serializeObject = function() {\
-                     \n     var o = {};\
-                     \n     var a = this.serializeArray();\
-                     \n     $.each(a, function() {\
-                     \n         if(o[this.name] !== undefined) {\
-                     \n             if(!o[this.name].push) {\
-                     \n                 o[this.name] = [o[this.name]];\
-                     \n             }\
-                     \n                 o[this.name].push(this.value || "");\
-                     \n         } else {\
-                     \n                 o[this.name] = this.value || "";\
-                     \n         }\
-                     \n     });\
-                     \n     return o;\
-                     \n };\
-                     \n var infoModal = $("#myModal");\
-                     \n $("form").submit(function(event) {\
-                     \n     var values = ( JSON.stringify($(this).serializeObject()) );\
-                     \n   var data = (values.replace(/\,/g,",\\n"));\
-                     \n   infoModal.find(".modal-body").html(data);\
-                     \n     event.preventDefault();\
-                     \n });\
-                     \n $(\'.group1\').prepend(\'<option value=\"\">Please make a selection</option>\').val(\'\');\
-                     \n $(\'.group3\').prepend(\'<option value=\"\">Please make a selection</option>\').val(\'\');\
-                     \n $(\'#close_window\').click(function(){ window.close(); });';        
-    dialogContent += "\n</scr" + "ipt>";
+  dialogContent+= "<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\">"               
+  dialogContent+= "</scr" + "ipt>";              
     dialogContent += '\n</form>'
+    dialogContent += "\n<scr" + "ipt type=\"text/javascript\" src=\"/js/preview_page.js\">" + "</scr" + "ipt>"
     dialogContent += '\n</body></html>';
       var win = window.open("about:blank");
       win.document.write(dialogContent);
@@ -308,7 +297,9 @@
     setTimeout(function() {
       $("#retrieve").trigger('click');
     }, 100)
-  });  
+  }); 
+
+
 </script>
 
 

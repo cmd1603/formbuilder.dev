@@ -13,16 +13,16 @@
 	            <div class="panel-group" id="sidebar" style="margin-bottom: 0px">
 	                <div class="panel panel-primary catField selectorField draggableField">
 	                    <div class="panel-heading"><h3 class="control-label ctrl-category text-uppercase">CATEGORY</h3></div>
-	                        <div class="panel-body"></div>
+	                        <div class="panel-body category-body"></div>
 	                </div>
 	                <div class="panel panel-default sectField sect_click selectorField draggableField">
 	                    <div class="panel-heading"><h4 class="control-label ctrl-section">Section</h4></div>
-	                        <div class="panel-body"></div>
+	                        <div class="panel-body section-body"></div>
 	                </div>
 	                <div class="panel panel-default">
 	                    <div class="panel-heading">
 	                        <h3 class="panel-title">
-	                            <a href="#section" id="section-anchor" data-parent="#section">Controls</a>
+	                            <a href="#section" id="section-anchor" data-toggle="collapse" data-parent="#section">Controls</a>
 	                        </h3>
 	                    </div>
 	                    <div id="section" class="panel-collapse collapse in">
@@ -80,7 +80,14 @@
 	                                      </ul>
 	                                    </label>
 	                                  </div>  
-	                                </div> 
+	                                </div>
+                                    <div class="elemField btn_click selectorField draggableField">
+                                    	<div class="ctrl-button">
+                                        	<label class="radio-inline">
+                                        		<a class="btn btn-default" type="button" target="_blank">Files</a>
+                                        	</label>
+                                        </div>	
+                                    </div>  
 	                            </div>                    
 	                        </div>
 	                    </div>
@@ -88,6 +95,8 @@
 	              	<br>
 	              	<textarea rows="5" id="mock_database" class="form-control" name="configuration">{{ old('configuration') }}</textarea>
 	              	<textarea rows="5" id="mdb_2" class="form-control" name="workarea_html" style="display: none;">{{ old('workarea_html') }}</textarea>
+	              	<textarea rows="5" id="mdb_3" class="form-control" name="submitted_names" style="display: none;">{{ old('submitted_names') }}</textarea>
+	              	<textarea rows="5" id="mdb_4" class="form-control" name="part_numbers" style="display: none;">{{ old('part_numbers') }}</textarea>
       		        <!-- CLEAR & SAVE BUTTONS -->
 			        <div class="btn-group"">
 			        		<button type="button" class="btn btn-default" id="retrieve" style="margin-right: 0px; background-color: darkgray">Retrieve</button>
@@ -100,17 +109,29 @@
 				<div class="row">
 			 		<div class="col-md-6">
 					 	{!! csrf_field() !!}
-					 	<label id="edit_dl">Directory Label</label>
-					 		@include('partials.form', ['id' => 'form_title', 'field' => 'directory_label', 'label' => 'Directory Label', 'type' => 'text', 'placeholder' => 'Directory Label'])
+					 	<label class="input_labels">Directory Label</label>
+					 		@include('partials.form', ['class' => 'form-control', 'id' => 'form_title', 'field' => 'directory_label', 'label' => 'Directory Label', 'type' => 'text', 'placeholder' => 'Directory Label'])
 					</div>
 					<div class="col-md-6">
-					 	<label id="edit_sf">Salesforce Product Code</label>	
-					 		@include('partials.form', ['id' => 'sfpc', 'field' => 'salesforce_product_code', 'label' => 'Salesforce Product Code', 'type' => 'text', 'placeholder' => 'Salesforce Product Code'])
+					 	<label class="input_labels">Salesforce Product Code</label>	
+					 		@include('partials.form', ['class' => 'form-control', 'id' => 'sfpc', 'field' => 'salesforce_product_code', 'label' => 'Salesforce Product Code', 'type' => 'text', 'placeholder' => 'Salesforce Product Code'])
 					</div>
-				</div>		
+				</div>
+			    <div class="row">  
+		      		<div class="col-md-6">
+						<label class="input_labels">Machine Image</label>	
+					 		@include('partials.form', ['class' => 'form-control', 'id' => 'image_filename', 'field' => 'machine_image', 'label' => 'Image Filename', 'type' => 'text', 'placeholder' => ''])			      	
+			      	</div>  
+			      	<div class="col-md-6">
+			      		<label class="input_labels" style="padding-top: 5px">Cutting Technology</label>
+		      			<label class="radio-inline tech_group"><input class="" type="radio"  name="cutting_technology" value="router">Router</label>
+		      			<label class="radio-inline tech_group"><input class="" type="radio"  name="cutting_technology" value="fabrication">Fabrication</label>
+		      			<label class="radio-inline tech_group"><input class="" type="radio"  name="cutting_technology" value="digital_finishing">Digital Finishing</label>
+			      	</div>
+
+			    </div>			
 				<div class="row text-center" style="margin-bottom: 10px">
 			      <div class="col-md-12">
-			<!--         <button class="btn btn-default" id="serialize">Serialize</button> -->
 			        <button type="button" class="btn btn-success trigger_btns" id="trigger_cat">Drop Category</button>
 			        <button type="button" class="btn btn-warning trigger_btns" id="trigger_sect">Drop Section</button>
 			        <button type="button" class="btn btn-danger trigger_btns" id="trigger_combo">Drop Combo</button>
@@ -118,13 +139,15 @@
 			        <button type="button" class="btn btn-danger trigger_btns" id="trigger_mult">Drop Mult</button>
 			        <button type="button" class="btn btn-danger trigger_btns" id="trigger_number">Drop Number</button>
 			        <button type="button" class="btn btn-danger trigger_btns" id="trigger_ul">Drop Text</button>
-			      </div>  
-			    </div>
+			        <button type="button" class="btn btn-danger trigger_btns" id="trigger_btn">Drop Button</button>
+			      </div>
+			    </div>  
+
 		        <!-- WORK AREA -->
 		        <div id="qo-wrap">  
 
 		        <!-- COLUMNS FOR DROPPING FIELDS -->
-		            <div class="row">
+		            <div class="row" id="inner_wrap">
 		                <div class="col-md-12 center-blocks" id="work-wrap" style="margin-left: 15px">
 		                        <div id="work-area" class="col-md-11 well droppedFields"></div>
 		                </div>   
@@ -146,16 +169,18 @@
         
       $(document).on('click', '.sect_click, #trigger_sect', function(e) { 
         $('.sectField').simulate("drag", {
-          dragTarget: ".droppedCategory:last",
+          dragTarget: ".droppedCategory .panel-body:last",
         });
         $('.sectField').simulate("drop");
       });
+
       $(document).on('click', '.select_one_click, #trigger_combo', function(e) {
         $('.ctrl-select_one').simulate("drag", {
-          dragTarget: ".droppedSect .panel-body:last",
+          dragTarget: ".droppedSect .section-body:last",
         });
         $('.ctrl-select_one').simulate("drop");
       });
+
       $(document).on('click', '.radiogroup_click, #trigger_radio', function(e) {
         $('.ctrl-radiogroup').simulate("drag", {
           dragTarget: ".droppedSect .panel-body:last",
@@ -169,18 +194,28 @@
         });
         $('.ctrl-selectmultiplelist').simulate("drop");
       });
+
       $(document).on('click', '.number_click, #trigger_number', function(e) {
         $('.ctrl-number').simulate("drag", {
           dragTarget: ".droppedSect .panel-body:last",
         });
         $('.ctrl-number').simulate("drop");
-      });           
+      });   
+              
       $(document).on('click', '.ul_click, #trigger_ul', function(e) {
         $('.ctrl-unordered_list').simulate("drag", {
           dragTarget: ".droppedSect .panel-body:last",
         });
         $('.ctrl-unordered_list').simulate("drop");
       });
+
+	  $(document).on('click', '.btn_click, #trigger_btn', function(e) {
+	  	$('.ctrl-button').simulate("drag", {
+	  		dragTarget: ".droppedSect .panel-body:last",
+	  	});
+	  	$('.ctrl-button').simulate("drop");
+	  });
+
   //  JS FOR ClLEARING THE WORK AREA
     function delete_field() {
         if(window.confirm("Are you sure you want to clear the work area?")) {
@@ -190,6 +225,8 @@
             console.log("FIELD CLEARED");
         }
     }
+
+
   </script>
 
  @stop 

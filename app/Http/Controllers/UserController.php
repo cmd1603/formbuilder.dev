@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Product;
+use App\Distributor;
+use App\Salesforce_Product_Code;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -16,12 +18,7 @@ class UserController extends Controller
     {
         return view('welcome');
     }
-
-    public function about()
-    {
-    	return view('about');
-    }
-
+    
     public function login()
     {
     	// show the form
@@ -65,11 +62,6 @@ class UserController extends Controller
         return view('auth.dashboard');
     }
 
-    public function creater()
-    {
-        return view('auth.creater');
-    }
-
     public function logout()
     {
     	Auth::logout(); // log the user out of our application
@@ -93,7 +85,8 @@ class UserController extends Controller
         $logged_in_user = Auth::user();
         $user = $this->findUserOr404($id);
         $configurations = $user->configurations;
-        return view('users.account')->with(['logged_in_user' => $logged_in_user, 'configurations' => $configurations, 'user' => $user]);
+        $rule_ids = $user->rule_ids;
+        return view('users.account')->with(['logged_in_user' => $logged_in_user, 'configurations' => $configurations, 'rule_ids' => $rule_ids, 'user' => $user]);
     }
 
     /**

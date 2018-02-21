@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Configuration;
 use App\Rule;
+use App\Rule_Id;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
@@ -14,7 +15,6 @@ use Storage;
 
 class ConfigurationsController extends Controller
 {
-    public $page_title = "All Configurations";
     public function __construct()
     {
     	$this->middleware('auth', ['except' => ['index', 'newest', 'show']]);
@@ -28,13 +28,8 @@ class ConfigurationsController extends Controller
 
 	public function index(Request $request)
 	{
-		$rules = Rule::all();
 		$configurations = Configuration::with('user')->orderBy('updated_at', 'desc')->paginate(10);
-		if (Auth::user()->id == 4) {
-			return view('configurations.index')->with('configurations', $configurations)->with('rules', $rules);
-		} else {
-			return redirect('/');
-		}	
+		return view('configurations.index')->with('configurations', $configurations);
 	}
 
 	/**
@@ -87,8 +82,9 @@ class ConfigurationsController extends Controller
 	public function edit(Request $request, $id)
 	{
 		$rules = Rule::all();
+		$rule_ids = Rule_Id::all();
 		$configuration = Configuration::findOrFail($id);
-		return view('configurations.edit')->with('configuration', $configuration)->with('rules', $rules);
+		return view('configurations.edit')->with('configuration', $configuration)->with('rules', $rules)->with('rule_ids', $rule_ids);
 
 	}
 
@@ -103,8 +99,7 @@ class ConfigurationsController extends Controller
 	public function update(Request $request, $id)
 	{
 		$configuration = Configuration::findOrFail($id);
-		return $this->validateAndSave($configuration, $request);
-
+		return $this->validateAndSave($configuration, $request);	
 	}
 
 	public function deactivate($id)
@@ -130,14 +125,16 @@ class ConfigurationsController extends Controller
 		session()->flash('success_message', 'Configuration deleted successfully.');
 		return redirect()->action('UserController@show', ['user_id' => $configuration->user->id]);
 	}
-
+	
 	private function validateAndSave(Configuration $configuration, Request $request)
-	{
+	{		
 		$request->session()->flash('error_message', 'Configuration was not saved successfully.');
 		$this->validate($request, Configuration::$rules);
 		$request->session()->forget('error_message');
 		$configuration->directory_label = $request->directory_label;
 		$configuration->salesforce_product_code = $request->salesforce_product_code;
+		$configuration->machine_image = $request->machine_image;
+		$configuration->cutting_technology = $request->cutting_technology;
 		$configuration->configuration = $request->configuration;
 		$configuration->workarea_html = $request->workarea_html;
 		$configuration->submitted_names = $request->submitted_names;

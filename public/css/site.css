@@ -1,11 +1,14 @@
 
 #header-title {
-	padding-top: 5%;
-	padding-bottom: 1%;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin-top: 0px;
+	color: whitesmoke;
+	font-weight: bold;
 }
 
 #qo-wrap {
-	min-height: 600px; 
+	min-height: 500px; 
 	border: 3px solid #ccc; 
 	background-color: rgba(255,255,255,.25);
 	padding-left: 0; 
@@ -50,10 +53,9 @@ label {
 }
 
 .draggableField {
-	margin-top: 10px;
-	margin-bottom: 10px;
-/*	margin-right: 10px;*/
-/*	padding-left: 5px;*/
+	margin-top: 0px;
+	margin-bottom: 3px;
+	padding-bottom: 5px;
 }
 
 .droppedCategory, .droppedSect > input, select, button, .ctrl-textbox, .checkboxgroup, .selectmultiplelist, .radiogroup {
@@ -71,6 +73,29 @@ label {
 	padding-top: 5px;
 }
 
+
+.technologies {
+    margin-bottom: 50px;
+    margin-top: 50px;
+    padding-left: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border: 2px solid #337ab7;
+    text-align: center;	
+}
+
+.full {
+	background: url('/img/mc_bg4.jpg')
+}
+
+#ct_divs {
+	background-size: 100% 100%;
+}
+
+.headers {
+	font-size: 60px;
+}
+
 .ctrl-selectmultiplelist {
 	width: 150px;
 }
@@ -79,17 +104,17 @@ label {
 	font-size: x-small;
 }
 
-/*.trigger_btns {
-	display: none;
+button {
+	margin-left: 4px;
 }
-*/
+
 .affix-top,.affix{
  	position: static;
 }
 
 #sidebar.affix {
 	position: fixed;
-	top: 150px;
+	top: 400px;
 	width: 202px;
 }
 
@@ -104,12 +129,6 @@ label {
 	margin-right: 0px;
 }
 
-/*@media screen and (max-width: 1200px) {
-	.panel-primary, .panel-default {
-		margin-right: 10px;
-	}
-}*/
-
 @media screen and (max-width: 1200px) {
 	.panel-group {
 		width: 202px;
@@ -119,7 +138,7 @@ label {
 @media screen and (min-width: 1200px) {
 	#sidebar.affix {
 		position: fixed;
-		top: 150px;
+		top: 100px;
 		width: 262px;
 	}
 }
@@ -167,10 +186,27 @@ label {
 	}
 }
 
+.input_labels {
+	color: white;
+	padding-top: 0;
+	font-size: medium;
+}
 
 .radio, .checkbox {
 	min-height: 20px;
 	padding-left: 20px;
+}
+
+div.white_bg, div.full_width {
+	width: 100%;
+	padding: 75px 0;
+}
+
+
+div.full_width {
+	background-color: #fbfbfb;
+	border-top: 1px solid #dcddde;
+	border-bottom: 1px solid #dcddde;
 }
 
 #form-title {
@@ -188,12 +224,20 @@ label {
 	float: none;
 }
 
+.names_inputs_label {
+	text-align: center;
+}
+
 .well {
 	min-height: 20px;
 	padding: 10px;
 	margin: 20px;
 	background-color: #f5f5f5;
 	border: 1px solid #e3e3e3;
+}
+
+ul {
+	padding-left: 0px;
 }
 
 .center-blocks {
@@ -211,6 +255,9 @@ label {
 	background-color: #a3bfff;
 }
 
+input[type=checkbox]:hover {
+	cursor: pointer;
+}
 
 .ui-draggable-dragging {
 	z-index: 1000!important;
@@ -225,21 +272,6 @@ label {
 	background-color: #a3bfff;
 }
 
-.modal {
-	position: fixed;
-	top: 10%;
-	left: 50%;
-	z-index: 1050;
-	width: 750px;
-	margin-left: -280px;
-	background-color: #fff;
-	border: 1px solid rgba(0,0,0,0.3);
-	border-radius: 6px;
-	outline: 0;
-	box-shadow: 0 3px 7px rgba(0,0,0,0.3);
-	background-clip: padding-box;    
-	max-height: calc(100% - 120px);
-}
 
 .modal-header {
     padding: 9px 15px;
@@ -247,7 +279,6 @@ label {
 }
 
 .modal-body {
-    position: relative;
     padding: 15px;
 }
 
@@ -269,6 +300,15 @@ label {
     text-align: right;
 }
 
+.edit_btns {
+	padding-left: 8px;
+	padding-right: 8px;
+	margin-right: 0px;
+}
+
+#main-container {
+	margin-bottom: 50px;
+}
 
 .control-label; {
     padding-top: 5px;
@@ -284,8 +324,14 @@ label {
 	margin-bottom: 10px;
 }
 
+.pane {
+	display: inline-block;
+	overflow-y: scroll;
+	max-height: 700px;
+}
+
 .form-control {
-	margin-bottom: 8px;
+	margin-bottom: 4px;
 }
 
 .panel-body {
@@ -302,12 +348,56 @@ label {
   padding: 10px;
 }
 
+.output {
+	margin-top: 10px;
+}
+
+#dropdown_input {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.tb_data {
+	text-align: center;
+}
+
+#id_header:hover {
+	cursor: pointer;
+	background: #AAA;
+}
+
 .pb-sect {
 	padding: 3px;
 }
 
 .droppedElem {
 	padding-left: 10px;
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    color: #0a548b;
+}
+
+.view_parent_img1 {
+	background: url(/img/grey_bg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
 }
 
 h4 {
@@ -322,13 +412,81 @@ h3 {
 }
 
 body {
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: 'Catamaran',sans-serif;
     font-size: 14px;
 }
 
 html,body {
 	width: 100%;
-	background-color: burlywood;
+	height: 100%;
+/*	background: url('/img/mc_bg2.jpg') no-repeat center center fixed; */
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    width:100%;
+    height:100%;	
 }
 
 
+/*.table-header-rotated th.row-header{
+  width: auto;
+}*/
+
+.table-header-rotated td{
+  width: 40px;
+  border-left: 1px solid #dddddd;
+  border-right: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.table-header-rotated th.rotate-45{
+  height: 120px;
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
+  position: relative;
+  vertical-align: bottom;
+  padding: 0;
+  font-size: 12px;
+  line-height: 0.8;
+}
+
+.table-header-rotated th.rotate-45 > div{
+  position: relative;
+  top: 0px;
+  left: 60px; /* 80 * tan(45) / 2 = 40 where 80 is the height on the cell and 45 is the transform angle*/
+  height: 100%;
+  -ms-transform:skew(-45deg,0deg);
+  -moz-transform:skew(-45deg,0deg);
+  -webkit-transform:skew(-45deg,0deg);
+  -o-transform:skew(-45deg,0deg);
+  transform:skew(-45deg,0deg);
+  overflow: hidden;
+  border-left: 1px solid #dddddd;
+  border-right: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+}
+
+.table-header-rotated th.rotate-45 span {
+  -ms-transform:skew(45deg,0deg) rotate(315deg);
+  -moz-transform:skew(45deg,0deg) rotate(315deg);
+  -webkit-transform:skew(45deg,0deg) rotate(315deg);
+  -o-transform:skew(45deg,0deg) rotate(315deg);
+  transform:skew(45deg,0deg) rotate(315deg);
+  position: absolute;
+  bottom: 30px; /* 40 cos(45) = 28 with an additional 2px margin*/
+  left: -25px; /*Because it looked good, but there is probably a mathematical link here as well*/
+  display: inline-block;
+  width: 85px; /* 80 / cos(45) - 40 cos (45) = 85 where 80 is the height of the cell, 40 the width of the cell and 45 the transform angle*/
+  text-align: left;
+  font-size: large;
+  /* white-space: nowrap; *//*whether to display in one line or not*/
+}
+
+.table>thead>tr>th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #ddd;
+    border-top: none;

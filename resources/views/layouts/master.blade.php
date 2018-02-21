@@ -13,10 +13,13 @@
 		<script type="text/javascript" src="/js/jquery-simulate-ext-master/src/jquery.simulate.ext.js"></script>
 		<script type="text/javascript" src="/js/jquery-simulate-ext-master/src/jquery.simulate.drag-n-drop.js"></script>
 		<script type="text/javascript" src="/js/jquery-simulate-ext-master/src/jquery.simulate.key-sequence.js"></script>
-		<script type="text/javascript" src="/js/jquery-simulate-ext-master/src/jquery.simulate.key-combo.js"></script>			
+		<script type="text/javascript" src="/js/jquery-simulate-ext-master/src/jquery.simulate.key-combo.js"></script>	
+	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+	    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700">		
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">		
 		<link rel="stylesheet" type="text/css" href="/css/site.css">
 		<style id="content-styles">
+		
 			.droppedElem {
 				padding-left: 10px;
 			}
@@ -33,7 +36,6 @@
 			    padding-right: 5px;
 			    text-align: right;
 			}
-
 
 			.control-label; {
 			    padding-top: 5px;
@@ -66,17 +68,89 @@
 				padding: 8px;
 			}
 
-			body {
-				width: 90%;
-			}
 		</style>
 	</head>	
 	<body>
+		<nav class="navbar navbar-default navbar-static-top" style="margin-bottom: 0px">
+	        <div class="container">
+	            <div class="navbar-header">
 
+	                <!-- Collapsed Hamburger -->
+	                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+	                    <span class="sr-only">Toggle Navigation</span>
+	                    <span class="icon-bar"></span>
+	                    <span class="icon-bar"></span>
+	                    <span class="icon-bar"></span>
+	                </button>
+
+	            </div>
+
+	            <div class="collapse navbar-collapse" id="app-navbar-collapse">
+	                <!-- Left Side Of Navbar -->
+	            <ul class="nav navbar-nav">
+                    @if (Auth:: guest())
+                    <li><a href="{{ url('/') }}" class="nav_buttons">Home</a></li>
+                    @elseif (Auth::user()->name == "Sales")
+                    <li><a href="{{ url('/') }}" class="nav_buttons">Home</a></li>
+                    <li><a href="{{ url('productaccess') }}" class="nav_buttons">Access</a></li>
+                    @else
+                    <li><a href="{{ url('/') }}" class="nav_buttons">Home</a></li>
+                    <li><a href="{{ url('configurations') }}">Configurations</a></li>
+                    <li><a href="{{ url('rules') }}" class="nav_buttons">Rules</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            Access <span class="caret"></span>
+                        </a>                    	
+                        <ul class="dropdown-menu" role="menu">
+                    		<li><a href="{{ url('productaccess') }}" class="nav_buttons"><i class="fa fa-btn fa-sign-out"></i>Access Home</a></li>
+                    		<li><a href="{{ url('sfpc_access') }}" class="nav_buttons"><i class="fa fa-btn fa-sign-out"></i>SFPC Access</a></li>
+                            <li><a href="{{ url('productaccess/create') }}"><i class="fa fa-btn fa-sign-out"></i>Distributor Access</a></li>
+                    	</ul>	
+                	</li>                    
+                    
+                    <li><a href="{{ url('sales_people') }}" class="nav_buttons">Salesperson</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            Create <span class="caret"></span>
+                        </a>
+
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{ url('creater') }}"><i class="fa fa-btn fa fa-sign-out"></i>Create Home</a></li>
+                            <li><a href="{{ url('configurations/create') }}"><i class="fa fa-btn fa fa-sign-out"></i>Configuration</a></li>
+                            <li><a href="{{ url('rule_ids/create') }}"><i class="fa fa-btn fa-sign-out"></i>Rule</a></li>
+                            <li><a href="{{ url('sales_people/create') }}"><i class="fa fa-btn fa-sign-out"></i>Salesperson</a></li>
+                        </ul>
+                    </li>
+<!--                     <li><a href="{{ url('cutting_technologies') }}">Cutting Technologies</a></li> -->
+                    @endif
+                    
+                </ul>
+
+	                <!-- Right Side Of Navbar -->
+	                <ul class="nav navbar-nav navbar-right">
+	                    <!-- Authentication Links -->
+	                    @if (Auth::guest())
+	                        <li><a href="{{ url('/login') }}" class="nav_buttons">Login</a></li>
+	                    @else
+	                    	<li><a href="{{ action('UserController@show', Auth::user()->id) }}" class="nav_buttons">My Profile</a></li>                 
+	                        <li class="dropdown">
+	                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" class="nav_buttons">
+	                                {{ Auth::user()->name }} <span class="caret"></span>
+	                            </a>
+
+	                            <ul class="dropdown-menu" role="menu">
+	                            	<li><a href="{{ url('dashboard') }}"><i class="fa fa-btn fa fa-sign-out"></i>Dashboard</a></li>
+	                                <li><a href="{{ url('logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+	                            </ul>
+	                        </li>
+	                    @endif
+	                </ul>
+	            </div>
+	        </div>
+	    </nav>
 	@yield('content')
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>	
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0-rc.3/handlebars.min.js"></script>
-	@include('partials.handlebars_template')
-	<script type="text/javascript" src="/js/site.js"></script>
+	<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/modernizr-2.7.1.js"></script>
 	</body>
 </html>
